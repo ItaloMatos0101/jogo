@@ -1,13 +1,10 @@
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
-import java.awt.Color;
-import java.awt.image.BufferedImage;
 
 public class Game implements Runnable {
     private Tela tela;
 
     private int width, height;
-    private String title;
 
     private boolean running;
     private Thread thread;
@@ -19,13 +16,10 @@ public class Game implements Runnable {
     private State menuState;
 
     private KeyManager keyManager;
-    private int x;
-    // private int y;
 
-    public Game(String title, int width, int height){
+    public Game(int width, int height){
         this.width = width;
         this.height = height;
-        this.title = title;
         keyManager = new KeyManager();
     }
 
@@ -34,12 +28,11 @@ public class Game implements Runnable {
     }
 
     private void init(){
-        tela = new Tela(title, width, height);
+        tela = new Tela(width, height);
         tela.getFrame().addKeyListener(keyManager);
-        Assets.init();
         gameState = new GameState(this);
         menuState = new MenuState(this);
-        State.setState(gameState);
+        State.setState(menuState);
     }
 
     public synchronized void start(){
@@ -84,29 +77,20 @@ public class Game implements Runnable {
         double delta = 0;
         long now;
         long lastTime = System.nanoTime();
-        long timer = 0;
-        long ticks = 0;
         while(running){
             now = System.nanoTime();
             delta += (now - lastTime)/timePerTick;
-            timer += now - lastTime;
             lastTime = now;
             if(delta >= 1){
                 tick();
                 render();
-                ticks++;
                 delta--;
-            }
-            if (timer >= 1000000000){
-                System.out.println("ticks e frames " + ticks);
-                ticks = 0;
-                timer = 0;
             }
         }
         stop();
     }
 
-    //para o jogo
+    //parar o jogo
     public synchronized void stop(){
         if(!running)
             return;
@@ -116,5 +100,18 @@ public class Game implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public int getWidth() {
+        return width;
+    }
+    public int getHeight() {
+        return height;
+    }
+    public State getGameState() {
+        return gameState;
+    }
+    public State getMenuState() {
+        return menuState;
     }
 }

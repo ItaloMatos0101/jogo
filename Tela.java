@@ -1,17 +1,13 @@
 import java.awt.*;
-
 import javax.swing.JFrame;
 
 public class Tela {
 
     private JFrame frame;
     private Canvas canvas;
-
-    private String title;
     private int width, height;
 
-    public Tela(String title, int width, int height){
-        this.title = title;
+    public Tela (int width, int height){
         this.width = width;
         this.height = height;
         criaTela();
@@ -34,7 +30,7 @@ public class Tela {
     }
 
     private void criaTela(){
-        frame = new JFrame(title);
+        frame = new JFrame("Balls");
         frame.setSize(width, height);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);

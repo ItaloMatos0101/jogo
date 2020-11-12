@@ -1,7 +1,7 @@
 // import segunda.Game;
 public class Launcher {
     public static void main(String[] args) {
-        Game game = new Game("title", 400, 400);
+        Game game = new Game(700, 700);
         game.start();
     }
 }
